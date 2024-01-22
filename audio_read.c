@@ -41,14 +41,14 @@ unsigned long read_samples (FILE * musicin, long int *sample_buffer,
 	 fread (sample_buffer, *byte_per_sample, (int) samples_read,
 		musicin)) == 0)
       if (verbosity >= 2)
-	printf ("Hit end of audio data\n");
+	printf ("Hit end of audio data (aiff)\n");
 
   } else {
     if ((samples_read =
 	 fread (pcm_sample_buffer, sizeof (short), (int) samples_read,
 		musicin)) == 0)
       if (verbosity >= 2)
-	printf ("Hit end of audio data\n");
+	printf ("Hit end of audio data (pcm)\n");
     for (i = 0; i < 9216; ++i)
       sample_buffer[i] = pcm_sample_buffer[i];
   }
