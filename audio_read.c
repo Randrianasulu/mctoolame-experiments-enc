@@ -20,11 +20,16 @@ unsigned long read_samples (FILE * musicin, long int *sample_buffer,
 			    long unsigned int frame_size, int
 			    *byte_per_sample, int *aiff)
 {
-  unsigned long samples_read;
-  static unsigned long samples_to_read;
+  unsigned long samples_read =0 ;
+  static unsigned long samples_to_read=0;
   static char init = TRUE;
   short pcm_sample_buffer[9216];	/*for correct reading of pcm-data */
   int i;
+  
+  printf("AIFF = %i \n", *aiff); // hack
+  printf("BPS= %i \n", *byte_per_sample);
+  printf("NSamples, %i \n", num_samples);
+  printf("FRSize %i \n", frame_size);
 
   if (init) {
     samples_to_read = num_samples;
@@ -35,13 +40,13 @@ unsigned long read_samples (FILE * musicin, long int *sample_buffer,
   else
     samples_read = samples_to_read;
 
-  if ((*aiff == 1) && (*byte_per_sample != 2)) {
+  if ((*aiff == 1) && (*byte_per_sample == 2)) {
 
     if ((samples_read =
 	 fread (sample_buffer, *byte_per_sample, (int) samples_read,
 		musicin)) == 0)
       if (verbosity >= 2)
-	printf ("Hit end of audio data (aiff)\n");
+	printf ("Hit end of audio data (aiff). samples read %i \n", samples_read);
 
   } else {
     if ((samples_read =
