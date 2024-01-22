@@ -31,7 +31,7 @@ OPTIM = -O3
 REQUIRED = -DINLINE=inline
 
 #pick your architecture
-ARCH = -march=pentium
+ARCH = -march=native
 #ARCH = -march=athlon-tbird
 #Possible x86 architectures
 #gcc3.2 => i386, i486, i586, i686, pentium, pentium-mmx
