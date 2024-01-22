@@ -771,8 +771,8 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr, int *byte_per_sampl
       Read32BitsHighLow (file_ptr);
       subSize -= 4;
       sound_position = ftell (file_ptr) + offset; //aiff_ptr->blkAlgn.offset;
-      if (fseek (file_ptr, (long) subSize, SEEK_CUR) != 0)
-    return -1;
+      if (fseek (file_ptr, (long) subSize, SEEK_CUR) != 0) {
+    printf("Seek failed! \n"); return -1; }
       break;
       
     default:
