@@ -1,6 +1,7 @@
 #include "common.h"
 #include "alloc_tables.h"
 #include <ctype.h>
+#include <stdint.h>
 
 /***********************************************************************
 *
@@ -591,6 +592,39 @@ void extended_to_double (char *ps, double *pd)
 
 }
 
+//byteswap from stackoverflow.
+// https://stackoverflow.com/questions/2182002/how-to-convert-big-endian-to-little-endian-in-c-without-using-library-functions
+
+
+//! Byte swap unsigned short
+uint16_t swap_uint16( uint16_t val )
+{
+    return (val << 8) | (val >> 8 );
+}
+
+//! Byte swap short
+int16_t swap_int16( int16_t val )
+{
+    return (val << 8) | ((val >> 8) & 0xFF);
+}
+
+//! Byte swap unsigned int
+uint32_t swap_uint32( uint32_t val )
+{
+    val = ((val << 8) & 0xFF00FF00 ) | ((val >> 8) & 0xFF00FF );
+    return (val << 16) | (val >> 16);
+}
+
+//! Byte swap int
+int32_t swap_int32( int32_t val )
+{
+    val = ((val << 8) & 0xFF00FF00) | ((val >> 8) & 0xFF00FF );
+    return (val << 16) | ((val >> 16) & 0xFFFF);
+}
+
+
+
+
 /*****************************************************************************
 *
 *  Read Audio Interchange File Format (AIFF) headers.
@@ -645,6 +679,8 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr,
   if (fread (&ident, sizeof (identifier), 1, file_ptr) != 1)
     return (-1);
 
+printf("Common.C after identifier \n");
+
 #ifdef MSDOS
   holder = ident.name[0];
   ident.name[0] = ident.name[3];
@@ -655,15 +691,21 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr,
   ident.ck_length = _lrotl (ident.ck_length, 8);
 #endif
 
+
 /* fixed bug in next line, HP 27-may-93 */
   while (strncmp (ident.name, IFF_ID_COMM, 4) != 0) {
     dummy = (char *) mem_alloc (ident.ck_length * sizeof (char), "dummy");
+    if(!dummy) printf("Eii! \n");
     if (fread (dummy, ident.ck_length, 1, file_ptr) != 1)
       return (-1);
+      
+      printf ("common.c After dummy \n");
+      
     mem_free ((void **) &dummy);
 /* fixed bug in next line, HP 27-may-93 */
     if (fread (&ident, sizeof (identifier), 1, file_ptr) != 1)
       return (-1);
+
 
 #ifdef MSDOS
     holder = ident.name[0];
@@ -683,6 +725,8 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr,
 
   if (fread (&CommChunk.numChannels, sizeof (short), 1, file_ptr) != 1)
     return (-1);
+    
+    printf("Common.c - after NumChannels : swapped numch = %i \n", swap_int16(CommChunk.numChannels));
 
   if (fread (&CommChunk.numSampleFrames, sizeof (unsigned long), 1, file_ptr) !=
       1)
@@ -707,12 +751,18 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr,
     temp_sampleRate[i] = CommChunk.sampleRate[i];
 
   extended_to_double (temp_sampleRate, &aiff_ptr->sampleRate);
+  
+  printf("common.c after extend to double \n");
+
 
 /* to start the search again from the beginning, HP 27-may-93 */
-  fseek (file_ptr, sizeof (Chunk), SEEK_SET);
+
+  fseek (file_ptr, 0, SEEK_SET);
 
   if (fread (&ident, sizeof (identifier), 1, file_ptr) != 1)
     return (-1);
+    
+    printf("common.c after seek to beginning 2 \n");
 
 #ifdef MSDOS
   holder = ident.name[0];
@@ -723,15 +773,28 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr,
   ident.name[2] = holder;
   ident.ck_length = _lrotl (ident.ck_length, 8);
 #endif
+#if 1
 
 /* fixed bug in next line, HP 27-may-93 */
   while (strncmp (ident.name, IFF_ID_SSND, 4) != 0) {
     dummy = (char *) mem_alloc (ident.ck_length * sizeof (char), "dummy");
-    if (fread (dummy, ident.ck_length, 1, file_ptr) != 1)
-      return (-1);
+    int ret = fread (dummy, ident.ck_length, 1, file_ptr);
+    if ( ret != 1)
+      {
+      printf("fread 1 failed, retcode  %i \n", ret);
+      //return (-1);
+      }
+    //printf("after syrncmp ssnd \n");
+
     mem_free ((void **) &dummy);
-    if (fread (&ident, sizeof (identifier), 1, file_ptr) != 1)
+    int ret1 = fread (&ident, sizeof (identifier), 1, file_ptr);
+    if ( ret1 != 1)
+      {
+      printf("fread 2 failed! ret %i \n", ret1);
       return (-1);
+      }
+      
+      //printf("common.c after ssnd \n");
 /* the following lines are not necessary, HP 27-may-93 */
 /*
 	{
@@ -761,6 +824,8 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr,
 
   if (fread (&SndDChunk.blockSize, sizeof (unsigned long), 1, file_ptr) != 1)
     return (-1);
+    
+    printf("common.c after BlockSize \n");
 
 #ifdef MSDOS
   SndDChunk.offset = _lrotl (SndDChunk.offset, 8);
@@ -774,12 +839,13 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr,
     if (fseek (file_ptr, seek_offset, SEEK_CUR) != 0)
 	return (-1);
 */
+#endif
 
-  aiff_ptr->numChannels = CommChunk.numChannels;
-  aiff_ptr->numSampleFrames = CommChunk.numSampleFrames;
-  aiff_ptr->sampleSize = CommChunk.sampleSize;
-  aiff_ptr->blkAlgn.offset = SndDChunk.offset;
-  aiff_ptr->blkAlgn.blockSize = SndDChunk.blockSize;
+  aiff_ptr->numChannels = swap_int16(CommChunk.numChannels);
+  aiff_ptr->numSampleFrames = swap_uint32(CommChunk.numSampleFrames);
+  aiff_ptr->sampleSize = swap_int16(CommChunk.sampleSize);
+  aiff_ptr->blkAlgn.offset = swap_uint32(SndDChunk.offset);
+  aiff_ptr->blkAlgn.blockSize = swap_uint32(SndDChunk.blockSize);
   strncpy (aiff_ptr->sampleType, SndDChunk.ckID, 4);
 
   return (0);
