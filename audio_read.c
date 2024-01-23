@@ -34,6 +34,7 @@ unsigned long read_samples (FILE * musicin, long int *sample_buffer,
   if (init) {
     samples_to_read = num_samples;
     init = FALSE;
+    fseek(musicin, 0, SEEK_SET); // HACK
   }
   if (samples_to_read >= frame_size)
     samples_read = frame_size;
@@ -41,7 +42,10 @@ unsigned long read_samples (FILE * musicin, long int *sample_buffer,
     samples_read = samples_to_read;
 
   if ((*aiff == 1) && (*byte_per_sample == 2)) {
-    fseek(musicin, 0, SEEK_SET); // HACK
+    
+    
+
+    
     if ((samples_read =
 	 fread (sample_buffer, *byte_per_sample, (int) samples_read,
 		musicin)) == 0)
