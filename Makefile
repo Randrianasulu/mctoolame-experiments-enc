@@ -44,7 +44,7 @@ ARCH = -march=native
 #	-fschedule-insns2 -fno-strength-reduce
 
 #Set a stack of warnings to overcome my atrocious coding style . MFC.
-WARNINGS = -Wall
+WARNINGS = -Wall -Wno-unused-but-set-variable
 WARNINGS2 = -Wstrict-prototypes -Wmissing-prototypes -Wunused -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wunused-value -Wredundant-decls
 
 CC_SWITCHES = $(OPTIM) $(REQUIRED) $(ARCH) $(PG) $(TWEAKS) $(WARNINGS) -DUNIX -DNEWSUBBAND -DNEWP1TABLES
