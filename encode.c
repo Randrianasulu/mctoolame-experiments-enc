@@ -3308,7 +3308,7 @@ void ancillary_encode (fr_ps, bs, adb)
   int adbNumberStart;
   //MFC  int l;
   char *mesg = "This bitstream use ancillary part.";
-  extern int mesg_index;
+  extern size_t mesg_index;
 
   register int i;
 
