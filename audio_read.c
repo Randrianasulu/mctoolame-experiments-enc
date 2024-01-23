@@ -51,7 +51,7 @@ unsigned long read_samples (FILE * musicin, long int *sample_buffer,
 	 fread (sample_buffer, *byte_per_sample, (int) samples_read,
 		musicin)) == 0)
       if (verbosity >= 2)
-	printf ("Hit end of audio data (aiff). samples read %i \n", samples_read);
+	printf ("Hit end of audio data (aiff). samples read %li \n", samples_read);
 
   } else {
     
