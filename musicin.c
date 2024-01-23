@@ -112,7 +112,7 @@ int main (int argc, char **argv)
   static unsigned int lfe_scalar;
 
   FLOAT snr32[32];
-  short sam[14][1056];		/* JMZ 08/03/1995 */
+  int16_t sam[14][1056];		/* JMZ 08/03/1995 */
   double buffer_matr[14][1152];	/* JMZ 08/03/1995 */
   int whole_SpF, extra_slot = 0;
   double avg_slots_per_frame, frac_SpF, slot_lag;

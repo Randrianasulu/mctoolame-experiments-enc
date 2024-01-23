@@ -27,7 +27,7 @@ unsigned long read_samples_ml (FILE * musicin, long int *sample_buffer,
   unsigned long samples_read;
   static unsigned long samples_to_read;
   static char init = TRUE;
-  short pcm_sample_buffer[8064];	/*for correct reading of pcm-data */
+  int16_t pcm_sample_buffer[8064];	/*for correct reading of pcm-data */
   long unsigned int i;
 
   if (init) {
@@ -46,7 +46,7 @@ unsigned long read_samples_ml (FILE * musicin, long int *sample_buffer,
 	printf ("Hit end of audio data\n");
   } else {
     if ((samples_read =
-	 fread (pcm_sample_buffer, sizeof (short), (int) samples_read,
+	 fread (pcm_sample_buffer, sizeof (int16_t), (int) samples_read,
 		musicin)) == 0)
       if (verbosity >= 2)
 	printf ("Hit end of audio data\n");
