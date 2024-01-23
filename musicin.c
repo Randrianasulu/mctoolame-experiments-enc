@@ -980,14 +980,14 @@ void aiff_check (char *file_name, IFF_AIFF * pcm_aiff_data)
     //exit (1);
   }
 
-  if (SmpFrqIndex ((long) pcm_aiff_data->sampleRate) < 0) {
+  if (SmpFrqIndex ((int32_t) pcm_aiff_data->sampleRate) < 0) {
     printf ("in \"%s\".\n", file_name);
     exit (1);
   }
 
-  if (pcm_aiff_data->sampleSize != sizeof (short) * BITS_IN_A_BYTE) {
+  if (pcm_aiff_data->sampleSize != sizeof (int16_t) * BITS_IN_A_BYTE) {
     printf ("Sound data is not %d bits in \"%s\".\n",
-	    sizeof (short) * BITS_IN_A_BYTE, file_name);
+	    sizeof (int16_t) * BITS_IN_A_BYTE, file_name);
     exit (1);
   }
 
@@ -1106,7 +1106,7 @@ parse_args (int argc, char **argv,
     abort ();
   }
   *psy = DFLT_PSY;
-  if ((info->sampling_frequency = SmpFrqIndex ((long) (1000 * DFLT_SFQ))) < 0) {
+  if ((info->sampling_frequency = SmpFrqIndex ((int32_t) (1000 * DFLT_SFQ))) < 0) {
     fprintf (stderr, "%s: bad sfrq default %.2f\n", programName, DFLT_SFQ);
     abort ();
   }
@@ -1190,7 +1190,7 @@ parse_args (int argc, char **argv,
 	  srate = atof (arg);
 	  argUsed = 1;
 	  if ((info->sampling_frequency =
-	       SmpFrqIndex ((long) (1000 * srate))) < 0)
+	       SmpFrqIndex ((int32_t) (1000 * srate))) < 0)
 	    err = 1;
 	  break;
 
