@@ -129,6 +129,12 @@ unsigned long read_samples_new (FILE * musicin, long int *sample_buffer,
 * 21/03/1995 JMZ Multimode adaptations
 ************************************************************************/
 
+//! Byte swap short
+static int16_t swap_int16( int16_t val )
+{
+    return (val << 8) | ((val >> 8) & 0xFF);
+}
+
 unsigned long
 get_audio (FILE * musicin,
 	   double (*buffer)[1152],
@@ -158,9 +164,10 @@ get_audio (FILE * musicin,
 				  (unsigned long) (k * 1152), byte_per_sample,
 				  aiff);
      
+     
      for (i = 0; i < k; i++)
        for (j = 0; j < 1152; j++)
-	 buffer[i][j] = insamp[k * j + i];
+	 buffer[i][j] = swap_int16(insamp[k * j + i]); // for Little-Endian machine
    } else {			/* layerII, stereo */
      if (stereo == 2) {
        samples_read = read_samples (musicin, insamp, num_samples,
