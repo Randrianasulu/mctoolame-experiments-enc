@@ -827,7 +827,7 @@ void pick_scale (unsigned int (*scalar)[3][32],
 		 double (*max_sc)[32], int cha_sw, int aug_cha_sw, int aiff)
 {
   int i, j, k, l, m;
-  int max;
+  unsigned int max;
   int stereo = fr_ps->stereo;
   //  int stereomc = fr_ps->stereomc;
   int stereoaug = fr_ps->stereoaug;
@@ -2915,7 +2915,7 @@ void II_subband_quantization (unsigned int (*scalar)[3][32],
   //MFC  int stereomc = fr_ps->stereomc;
   int sblimit = fr_ps->sblimit;
   int jsbound = fr_ps->jsbound;
-  unsigned int stps;
+  int stps;
   double d;
   al_table *alloc = fr_ps->alloc;
 

@@ -28,7 +28,7 @@ unsigned long read_samples_ml (FILE * musicin, long int *sample_buffer,
   static unsigned long samples_to_read;
   static char init = TRUE;
   short pcm_sample_buffer[8064];	/*for correct reading of pcm-data */
-  int i;
+  long unsigned int i;
 
   if (init) {
     samples_to_read = num_samples;
@@ -126,7 +126,8 @@ void II_sample_encoding_ml (unsigned int (*sbband)[3][12][32],
 			    Bit_stream_struc * bs)
 {
   unsigned int temp;
-  unsigned int i, j, k, s, x, y;
+  unsigned int j, s, x, y;
+  int i, k;
   int n_ml_ch = fr_ps->header->multiling_ch;
   int lsf = fr_ps->header->multiling_fs;
   int sblimit_ml = fr_ps->sblimit_ml;

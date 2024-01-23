@@ -6,7 +6,8 @@
 void psycho_2 (double *buffer, short int *savebuf, int chn, int lay, float *snr32, double sfreq	/* to match prototype : float args are always double */
   )
 {
-  unsigned int i, j, k;
+  unsigned int  k;
+  int i, j;
   FLOAT r_prime, phi_prime;
   FLOAT freq_mult, bval_lo, minthres, sum_energy;
   double tb, temp1, temp2, temp3;
