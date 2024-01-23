@@ -2,6 +2,7 @@
 #include "encoder.h"
 #include "encode.h"
 #include "audio_read.h"
+#include <stdint.h>
 
 /************************************************************************
 *
