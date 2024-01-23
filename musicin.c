@@ -534,7 +534,7 @@ int main (int argc, char **argv)
 	    }
 	  }
 
-	  normalizing (sb_sample, &fr_ps);
+	normalizing (sb_sample, &fr_ps);
 
 	matricing (sb_sample, &fr_ps);
 
@@ -727,7 +727,7 @@ int main (int argc, char **argv)
 #endif
 
 #ifdef PRINTOUT
-    if (verbosity >= 3) {
+    if (verbosity >= 4) {
 	printf
 	  ("\nFrame %4lu   channel 1  channel 2  channel 3  channel 4  channel 5\n",
 	   frameNum - 1);
