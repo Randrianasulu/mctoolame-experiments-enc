@@ -1038,6 +1038,7 @@ int aiff_seek_to_sound_data (FILE * file_ptr)
 *  Write Audio Interchange File Format (AIFF) headers.
 *
 *******************************************************************************/
+#if 0
 
 int aiff_write_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr)
 {
@@ -1114,6 +1115,7 @@ int aiff_write_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr)
   return (0);
 }
 
+#endif // DISABLED for encoder
 /*****************************************************************************
 *
 *  bit_stream.c package
