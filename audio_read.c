@@ -166,7 +166,7 @@ get_audio (FILE * musicin,
    if (*aiff == 1) {
      k = aiff_ptr->numChannels;
      samples_read = read_samples (musicin, insamp, num_samples,
-				  (unsigned long) (k * 1152), byte_per_sample,
+				  (uint32_t) (k * 1152), byte_per_sample,
 				  aiff);
      
      
@@ -176,7 +176,7 @@ get_audio (FILE * musicin,
    } else {			/* layerII, stereo */
      if (stereo == 2) {
        samples_read = read_samples (musicin, insamp, num_samples,
-				    (unsigned long) ((2 + lfe) * 1152),
+				    (uint32_t) ((2 + lfe) * 1152),
 				     byte_per_sample, aiff);
 	for (j = 0; j < 1152; j++) {	/* fixed bug 28.6.93 S.R. */
 	  buffer[0][j] = insamp[(2 + lfe) * j];
@@ -189,7 +189,7 @@ get_audio (FILE * musicin,
 	}
       } else {			/* layer 2 (or 3), mono */
 	samples_read = read_samples (musicin, insamp, num_samples,
-				     (unsigned long) 1152, byte_per_sample,
+				     (uint32_t) 1152, byte_per_sample,
 				     aiff);
 	for (j = 0; j < 1152; j++) {
 	  buffer[0][j] = insamp[j];
