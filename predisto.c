@@ -449,7 +449,7 @@ void matri (double (*sbs_sample)[3][12][32], frame_params * fr_ps,
 
   //MFC  layer *info = fr_ps->header;
 
-  for (k = 0; k < 8; k++) {
+  for (k = 0; k < 7; k++) {
     if (fr_ps->header->mc_pred[k] == 0) {
       switch (fr_ps->header->tc_alloc[k]) {
       case 0:
