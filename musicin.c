@@ -118,7 +118,8 @@ int main (int argc, char **argv)
   double avg_slots_per_frame, frac_SpF, slot_lag;
   int model, stereo, error_protection, stereomc, stereoaug;
   static unsigned int crc, crcmc, crcext; //crcaug MFC
-  int i, j, k, adb, l, m, lfe;
+  int i, j, k, adb, l, lfe;
+  long unsigned int m;
   // int p, s
   unsigned long bitsPerSlot, samplesPerFrame, frameNum = 0;
   unsigned long frameBits, sentBits = 0;
@@ -395,7 +396,7 @@ int main (int argc, char **argv)
       if (odd_ml) {
 	if (get_audio_ml (musicin_ml, buffer, num_samples_ml, &aiff_ptr, &fr_ps,
 			  &aiff, &byte_per_sample,
-			  buffer_matr) != 1152 * info.multiling_ch) {
+			  buffer_matr) != (long unsigned int)(1152 * info.multiling_ch)) {
 	  if (verbosity >= 2)
 	    printf ("\nHit end of MultiLingual file.\n");
 	  ml_eof = 1;
