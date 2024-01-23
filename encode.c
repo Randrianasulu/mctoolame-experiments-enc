@@ -3192,7 +3192,8 @@ void II_sample_encoding (unsigned int (*sbband)[3][12][32],
 			 Bit_stream_struc * bs)
 {
   unsigned int temp;
-  unsigned int i, j, k, s, x, y;
+  unsigned int j, k, s, x, y;
+  int i;
   int stereo = fr_ps->stereo;
   // MFC  int stereomc = fr_ps->stereomc;
   int sblimit = fr_ps->sblimit;
@@ -3232,7 +3233,8 @@ void II_sample_encoding_mc (unsigned int (*sbband)[3][12][32],
 			    Bit_stream_struc * bs)
 {
   unsigned int temp;
-  unsigned int i, j, k, s, x, y, l, m;
+  unsigned int k, j, s, x, y, l;
+  int i, m;
   layer *info = fr_ps->header;
   int center = info->center;
   int stereo = fr_ps->stereo;

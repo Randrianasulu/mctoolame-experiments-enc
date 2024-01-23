@@ -883,7 +883,7 @@ void subband_quantization_pre (unsigned int (*scalar)[3][32],
   //MFC  int stereo = fr_ps->stereo;
   //MFC  int stereomc = fr_ps->stereomc;
   int sblimit = fr_ps->sblimit;
-  unsigned int stps;
+  long int stps;
   double d;
   al_table *alloc = fr_ps->alloc;
 

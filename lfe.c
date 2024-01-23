@@ -64,7 +64,7 @@ void II_lfe_quantisation (unsigned int lfe_scalar,
 			  unsigned int sbband[12], frame_params * fr_ps)
 {
   int s, qnt, n, sig;
-  unsigned int stps;
+  long int stps;
   double d;
   al_table *alloc = fr_ps->alloc;
   for (s = 0; s < 12; s++) {
