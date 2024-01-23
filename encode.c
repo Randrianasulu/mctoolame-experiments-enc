@@ -2989,7 +2989,7 @@ void II_subband_quantization_mc (unsigned int (*scalar)[3][32],
   int stereo = fr_ps->stereo;
   int stereomc = fr_ps->stereomc;
   int sblimit = fr_ps->sblimit_mc;
-  unsigned int stps;
+  long int stps;
   double d;
   al_table *alloc = fr_ps->alloc_mc;
 
@@ -3067,7 +3067,7 @@ void II_subband_quantization_ml (unsigned int (*scalar)[3][32],
   int n_ml_ch = fr_ps->header->multiling_ch;
   int sblimit = fr_ps->sblimit_ml;
   int ml_lsf = fr_ps->header->multiling_fs;
-  unsigned int stps;
+  long int stps;
   double d;
   al_table *alloc = fr_ps->alloc_ml;
 
@@ -3192,8 +3192,8 @@ void II_sample_encoding (unsigned int (*sbband)[3][12][32],
 			 Bit_stream_struc * bs)
 {
   unsigned int temp;
-  unsigned int j, k, s, x, y;
-  int i;
+  unsigned int j, s, x, y;
+  int i, k;
   int stereo = fr_ps->stereo;
   // MFC  int stereomc = fr_ps->stereomc;
   int sblimit = fr_ps->sblimit;
