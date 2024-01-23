@@ -434,7 +434,7 @@ void read_absthr (float *absthr, long int table)
     printf ("Please check %s table\n", ta);
     exit (0);
   }
-  fgets (t, 150, fp);
+  fgets (t, 80, fp);
   sscanf (t, "table %ld", &index);
   if (index != table) {
     printf ("error in absthr table %s", ta);
