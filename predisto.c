@@ -1136,7 +1136,7 @@ void II_dequantize_sample (unsigned int (*sample)[3][32],
 	  /* locate MSB in the sample */
 	  x = 0;
 #ifndef MSDOS
-	  while ((1L << x) < (*alloc)[i][bit_alloc[k][i]].steps)
+	  while ((1L << x) < (long int)(*alloc)[i][bit_alloc[k][i]].steps)
 	    x++;
 #else
 	  /* microsoft C thinks an int is a short */
