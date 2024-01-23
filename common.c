@@ -622,11 +622,11 @@ int32_t swap_int32( int32_t val )
     return (val << 16) | ((val >> 16) & 0xFFFF);
 }
 
-#define IFF_ID_FORM 0x464f524d	/* "FORM" */
-#define IFF_ID_AIFF 0x41494646	/* "AIFF" */
-#define IFF_ID_COMM 0x434f4d4d	/* "COMM" */
-#define IFF_ID_SSND 0x53534e44	/* "SSND" */
-#define IFF_ID_MPEG 0x4d504547	/* "MPEG" */
+#define IFF_ID_FORM_INT 0x464f524d	/* "FORM" */
+#define IFF_ID_AIFF_INT 0x41494646	/* "AIFF" */
+#define IFF_ID_COMM_INT 0x434f4d4d	/* "COMM" */
+#define IFF_ID_SSND_INT 0x53534e44	/* "SSND" */
+#define IFF_ID_MPEG_INT  0x4d504547	/* "MPEG" */
 
 #define AIFF_FORM_HEADER_SIZE 12
 #define AIFF_SSND_HEADER_SIZE 16
@@ -725,12 +725,12 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr, int *byte_per_sampl
   if (fseek (file_ptr, 0, SEEK_SET) != 0)
     return -1;
 
-  if (Read32BitsHighLow (file_ptr) != IFF_ID_FORM)
+  if (Read32BitsHighLow (file_ptr) != IFF_ID_FORM_INT)
     return -1;
 
   chunkSize = Read32BitsHighLow (file_ptr);
 
-  if (Read32BitsHighLow (file_ptr) != IFF_ID_AIFF)
+  if (Read32BitsHighLow (file_ptr) != IFF_ID_AIFF_INT)
     return -1;
 
   sound_position = 0;
@@ -738,7 +738,7 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr, int *byte_per_sampl
     chunkSize -= 4;
     switch (Read32BitsHighLow (file_ptr)) {
 
-    case IFF_ID_COMM:
+    case IFF_ID_COMM_INT:
       chunkSize -= subSize = Read32BitsHighLow (file_ptr);
       aiff_ptr->numChannels = Read16BitsHighLow (file_ptr);
       subSize -= 2;
@@ -761,7 +761,7 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr, int *byte_per_sampl
       }
       break;
 
-    case IFF_ID_SSND:
+    case IFF_ID_SSND_INT:
       //aiff_ptr->sampleType = IFF_ID_SSND; 
       chunkSize -= subSize = Read32BitsHighLow (file_ptr);
       //aiff_ptr->blkAlgn.offset = Read32BitsHighLow (file_ptr);
