@@ -502,9 +502,21 @@ void noise_label (int crit_band, int *cbound, mask * power, int *noise,
       index = weight / pow (10.0, sum / 10.0);
       centre = cbound[i] + (int) (index * (double) (cbound[i + 1] - cbound[i]));
     }				/* locate next non-tonal component until finished; */
+
     /* add to list of non-tonal components             */
-    if (power[centre].type == TONE)
-      centre++;
+//    if (power[centre].type == TONE)
+//      centre++;
+
+    /* Masahiro Iwadare's fix for infinite looping problem? */
+    if (power[centre].type == TONE) {
+      if (power[centre + 1].type == TONE) {
+       centre++;
+      } else
+       centre--;
+    }
+
+
+
     if (last == LAST)
       *noise = centre;
     else {
@@ -526,12 +538,17 @@ void noise_label (int crit_band, int *cbound, mask * power, int *noise,
 
 void subsampling (mask * power, g_thres * ltg, int *tone, int *noise)
 {
-  int i, old;
+
+  
+  int i=0;
+  int old=0;
+
 
   i = *tone;
   old = STOP;
   /* calculate tonal components for */
-  while (i != LAST) {
+  while ((i != LAST) && (i != STOP))  {
+  if(i>200) break;
     /* reduction of spectral lines    */
     if (power[i].x < ltg[power[i].map].hear) {
       power[i].type = FALSE;
@@ -547,7 +564,8 @@ void subsampling (mask * power, g_thres * ltg, int *tone, int *noise)
   i = *noise;
   old = STOP;
   /* calculate non-tonal components for */
-  while (i != LAST) {
+  while ((i != LAST) && (i != STOP)) {
+    if (i>200) break;
     /* reduction of spectral lines        */
     if (power[i].x < ltg[power[i].map].hear) {
       power[i].type = FALSE;
@@ -562,7 +580,8 @@ void subsampling (mask * power, g_thres * ltg, int *tone, int *noise)
   }
   i = *tone;
   old = STOP;
-  while (i != LAST) {
+  while ((i != LAST)  && (i != STOP)) {
+  if(i>200) break;
     /* if more than one */
     if (power[i].next == LAST)
       break;			/* tonal component  */
@@ -632,13 +651,15 @@ the IRT real time implementation. The constant definitions are for convenience.
 void threshold (int sub_size, mask * power, g_thres * ltg, int *tone,
 		int *noise, int bit_rate)
 {
-  int k, t;
+
+   int k, t;
   double z, dz, spl, vf=0, tmps;
 
   for (k = 1; k < sub_size; k++) {	/* Target frequencies */
     ltg[k].x = DBMIN;
     t = *tone;			/* calculate individual masking threshold  */
     while (t != LAST) {		/* for tonal components, t,  to find LTG   */
+    if(t>200) break;
       z = ltg[power[t].map].bark;	/* critical band rate of masker */
       dz = ltg[k].bark - z;	/* distance of bark value */
       spl = power[t].x;		/* sound pressure level of masker */
@@ -671,6 +692,7 @@ void threshold (int sub_size, mask * power, g_thres * ltg, int *tone,
 
     t = *noise;			/* calculate individual masking threshold   */
     while (t != LAST) {		/* for non-tonal components, t, to find LTG */
+    if(t>200) break;
       z = ltg[power[t].map].bark;	/* critical band rate of masker */
       dz = ltg[k].bark - z;	/* distance of bark value */
       spl = power[t].x;		/* sound pressure level of masker */
