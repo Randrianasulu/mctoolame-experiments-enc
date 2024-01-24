@@ -24,6 +24,7 @@
 #ifdef  UNIX
 #include        <unistd.h>	 /* removed 92-08-05 shn */
 #include	<stdlib.h>       /* put in 92-08-05 shn */
+#include	<stdint.h>
 #endif  /* UNIX */
 
 
