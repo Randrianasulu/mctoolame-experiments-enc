@@ -986,7 +986,7 @@ void aiff_check (char *file_name, IFF_AIFF * pcm_aiff_data)
   }
 
   if (pcm_aiff_data->sampleSize != sizeof (int16_t) * BITS_IN_A_BYTE) {
-    printf ("Sound data is not %d bits in \"%s\".\n",
+    printf ("Sound data is not %lu bits in \"%s\".\n",
 	    sizeof (int16_t) * BITS_IN_A_BYTE, file_name);
     exit (1);
   }

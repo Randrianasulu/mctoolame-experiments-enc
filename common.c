@@ -751,7 +751,7 @@ int aiff_read_headers (FILE * file_ptr, IFF_AIFF * aiff_ptr, int *byte_per_sampl
       subSize -= 10;
       
       printf("Num. ch: %i \n", aiff_ptr->numChannels);
-      printf("Sample frames %li \n", aiff_ptr->numSampleFrames);
+      printf("Sample frames %u \n", aiff_ptr->numSampleFrames);
       printf("Sample size in bits %i \n", aiff_ptr->sampleSize);
       printf("Sample rate %f \n", aiff_ptr->sampleRate);
       
