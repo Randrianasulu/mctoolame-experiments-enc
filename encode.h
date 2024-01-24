@@ -95,8 +95,8 @@ void	   ancillary_encode (frame_params*,Bit_stream_struc*,int);
 void	   matricing_fft (double (*buffer)[1152], double (*buffer_matr)[1152], frame_params *fr_ps);
 void        tc_alloc (frame_params *fr_ps, double (*max_sc)[SBLIMIT]);
 int         II_bits_for_indi (double (*perm_smr)[SBLIMIT], unsigned int (*scfsi)[SBLIMIT], frame_params *fr_ps, int *a, int *b, int *aiff);
-int         required_bits ();
-int         max_alloc ();
+int         required_bits (void);
+int         max_alloc (void);
  
 
 
