@@ -703,7 +703,7 @@ int main (int argc, char **argv)
       }
       break;
     default:
-      fprintf(stdout,"LayerII only\n");
+      fprintf(stdout,"This encoder supports LayerII only\n");
       exit(0);
     }
 
