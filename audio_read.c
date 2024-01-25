@@ -153,7 +153,7 @@ get_audio (FILE * musicin,
   )
 {
   int k, j, i;
-  int32_t insamp[9216];
+  int16_t insamp[9216];
   unsigned long samples_read;
   int lay;
   int lfe;
