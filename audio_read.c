@@ -161,6 +161,8 @@ get_audio (FILE * musicin,
 
   lay = info->lay;
   lfe = info->lfe;
+  
+  int endian_order = DetermineByteOrder();
 
  {
    if (*aiff == 1) {
@@ -172,7 +174,12 @@ get_audio (FILE * musicin,
      
      for (i = 0; i < k; i++)
        for (j = 0; j < 1152; j++)
-	 buffer[i][j] = swap_int16(insamp[k * j + i]); // for Little-Endian machine
+       
+       if(endian_order == 1)
+	    buffer[i][j] = swap_int16(insamp[k * j + i]); // for Little-Endian machine
+	if(endian_order == 2 || endian_order == 3)
+	    buffer[i][j] = insamp[k * j + i]; // for Big-Endian machine
+
    } else {			/* layerII, stereo */
      if (stereo == 2) {
        samples_read = read_samples (musicin, insamp, num_samples,

@@ -360,6 +360,7 @@ void	      program_information(void);
 FILE           *OpenTableFile(char *name);
 //int            read_bit_alloc(int table, al_table (*alloc));
 //int            pick_table(frame_params *fr_ps);
+int            DetermineByteOrder(void);
 int            js_bound(int lay, int m_ext);
 void           hdr_to_frps(frame_params *fr_ps);
 int            BitrateIndex(int layr, int bRate);

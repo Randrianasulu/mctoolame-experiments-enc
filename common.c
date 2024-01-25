@@ -709,7 +709,25 @@ static int Read32BitsHighLow (FILE *fp)
   return (result);
 }
 
-
+/* 1 le, 2 be, 3 undefined */
+int DetermineByteOrder (void)
+{
+char s[sizeof (long) + 1];
+union {
+         long longval;
+         char charval[sizeof (long)];
+    } probe;
+    probe.longval = 0x41424344L;	/* ABCD in ASCII */
+    strncpy (s, probe.charval, sizeof (long)); 
+    s[sizeof (long)] = '\0';
+    /* fprintf( stderr, "byte order is %s\n", s ); */
+    if (strcmp (s, "ABCD") == 0)
+	return 2;
+    else if (strcmp (s, "DCBA") == 0)
+	return 1;
+    else
+ return 3;
+}
 
 
 /*****************************************************************************
