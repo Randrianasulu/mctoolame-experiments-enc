@@ -407,6 +407,7 @@ int SmpFrqIndex (long int sRate)
     break;
   default:
     fprintf (stderr, "SmpFrqIndex: %ld is not a legal sample rate\n", sRate);
+    fprintf (stderr, "Supported sampl. rates: 44100, 48000, 32000, 22050, 24000, 16000\n");
     return (-1);		/* Error! */
   }
 }
