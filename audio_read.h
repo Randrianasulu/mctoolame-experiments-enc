@@ -1,6 +1,6 @@
 
 unsigned long  read_samples (FILE *musicin,
-				    int32_t *sample_buffer,
+				    int16_t *sample_buffer,
 				    long unsigned int num_samples,
 				    long unsigned int frame_size,
 				    int *byte_per_sample,

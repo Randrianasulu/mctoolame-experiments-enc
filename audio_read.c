@@ -16,7 +16,7 @@
 *
 ************************************************************************/
 
-unsigned long read_samples (FILE * musicin, int32_t *sample_buffer,
+unsigned long read_samples (FILE * musicin, int16_t *sample_buffer,
 			    long unsigned int num_samples,
 			    long unsigned int frame_size, int
 			    *byte_per_sample, int *aiff)
@@ -270,7 +270,7 @@ get_audio_new (FILE * musicin,
   )
 {
   int j, i;
-  int32_t insamp[9216];
+  int16_t insamp[9216];
   unsigned long samples_read=0;
   //MFC  int lay;
   int lfe;
