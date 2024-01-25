@@ -1,4 +1,7 @@
-You now can use aiff
+Encoder requires c99 compiler for now.
+Big endian still not supported for aiff reading
+
+You now can use aiff on little-endian x86, x86-64 and aarch64
 
 first create your file:
 
@@ -25,3 +28,5 @@ matrix=0  center=1  surround=1  stereo=2  stereomc=2  stereoaug=0
 input file: '4ch.aiff'   output file: '4ch.aiff.mp2'
 
 Update: now seems to work for 1-6 ch AIFFs at 32/44.1/48 Khz
+
+Predictive mode (-P)  seems to be broken
