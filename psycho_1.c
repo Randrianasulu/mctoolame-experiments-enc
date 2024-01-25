@@ -180,14 +180,6 @@ void make_map (int sub_size, mask * power, g_thres * ltg)
       power[j].map = i;
 }
 
-#ifdef DELETEME
-double add_db (double a, double b)
-{
-  a = pow (10.0, a / 10.0);
-  b = pow (10.0, b / 10.0);
-  return 10 * log10 (a + b);
-}
-#endif
 
 #define DBTAB 1000
 double dbtable[DBTAB];
