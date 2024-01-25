@@ -35,7 +35,7 @@ unsigned long read_samples (FILE * musicin, int32_t *sample_buffer,
   if (init) {
     samples_to_read = num_samples;
     init = FALSE;
-    fseek(musicin, 0, SEEK_SET); // HACK
+    aiff_seek_to_sound_data(musicin);
   }
   if (samples_to_read >= frame_size)
     samples_read = frame_size;
