@@ -30,3 +30,9 @@ input file: '4ch.aiff'   output file: '4ch.aiff.mp2'
 Update: now seems to work for 1-6 ch AIFFs at 32/44.1/48 Khz
 
 Predictive mode (-P)  seems to be broken
+
+Some old (2005) Windows-based notes on using multichannel
+mpeg audio for making 5.1 SVCD:
+
+https://web.archive.org/web/20051230022557/http://hypercubemx.free.fr/html/how_to_make_5_1__svcd.html
+
