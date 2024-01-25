@@ -29,11 +29,11 @@ int *psycho_1_read_cbound (int lay, int freq, int *crit_band)
   int i, k;
 
   if ((lay < 1) || (lay > 2)) {
-    printf ("Internal error (read_cbound())\n");
+    printf ("Internal error (read_cbound()) - unsupported layout!\n");
     exit(99);
   }
   if ((freq < 0) || (freq > 6) || (freq == 3)) {
-    printf ("Internal error (read_cbound())\n");
+    printf ("Internal error (read_cbound()) - unsupported freq!\n");
     exit(99);
   }
 
