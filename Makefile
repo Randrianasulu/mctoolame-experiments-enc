@@ -25,7 +25,7 @@ OBJ = $(c_sources:.c=.o)
 #PG = -g -pg
 
 # Optimize flag. 3 is about as high as you can sanely go with GCC3.2.
-OPTIM = -O1 -g -Wpedantic -Wall -std=c99
+OPTIM = -O1 -g -pedantic -Wall -std=c99
 
 # These flags are pretty much mandatory
 REQUIRED = -DINLINE=inline
