@@ -221,6 +221,55 @@ INLINE double add_db (double a, double b)
   return (b + dbtable[-idiff]);
 }
 
+
+
+static void psycho_1_hann_fft_pickmax (double sample[FFT_SIZE], mask power[HAN_SIZE],
+		       double spike[SBLIMIT], FLOAT energy[FFT_SIZE])
+{
+  FLOAT x_real[FFT_SIZE];
+  register int i, j;
+  register FLOAT sqrt_8_over_3;
+  static int init = 0;
+  static FLOAT window[FFT_SIZE];
+  FLOAT sum;
+
+  if (!init) {			
+    /* calculate window function for the Fourier transform */
+    /* These values need only be initiliased once, regardless of the caller */
+    sqrt_8_over_3 = pow (8.0 / 3.0, 0.5);
+    for (i = 0; i < FFT_SIZE; i++) {
+      /* Hann window formula */
+      window[i] =
+	sqrt_8_over_3 * 0.5 * (1 -
+			       cos (2.0 * PI * i / (FFT_SIZE))) / FFT_SIZE;
+    }
+    init = 1;
+  }
+  for (i = 0; i < FFT_SIZE; i++)
+    x_real[i] = (FLOAT) (sample[i] * window[i]);
+
+  psycho_1_fft (x_real, energy, FFT_SIZE);
+
+  for (i = 0; i < HAN_SIZE; i++) {	/* calculate power density spectrum */
+    if (energy[i] < 1E-20)
+      power[i].x = -200.0 + POWERNORM;
+    else
+      power[i].x = 10 * log10 (energy[i]) + POWERNORM;
+    power[i].next = STOP;
+    power[i].type = FALSE;
+  }
+
+  /* Calculate the sum of spectral component in each subband from bound 4-16 */
+
+#define CF 1073741824		/* pow(10, 0.1*POWERNORM) */
+#define DBM  1E-20		/* pow(10.0, 0.1*DBMIN */
+  for (i = 0; i < HAN_SIZE; spike[i >> 4] = 10.0 * log10 (sum), i += 16) {
+    for (j = 0, sum = DBM; j < 16; j++)
+      sum += CF * energy[i + j];
+  }
+}
+
+
 /****************************************************************
 *
 *        Fast Fourier transform of the input samples.
@@ -834,8 +883,11 @@ void psycho_1 (double (*buffer)[1152],
   static int *cbound;
   static int sub_size;
 
+  FLOAT energy[FFT_SIZE];
+
   sample = (double *) mem_alloc (sizeof (DFFT), "sample");
   spike = (DSBL *) mem_alloc (sizeof (D12SBL), "spike");
+
 
   if (!init) {
     psycho_1_init_add_db();
@@ -882,11 +934,14 @@ void psycho_1 (double (*buffer)[1152],
 
     off[k] += 1152;
     off[k] %= 1408;
+
     /* call functions for windowing PCM samples, */
-    II_hann_win (sample);	/* location of spectral components in each  */
+    //II_hann_win (sample);	/* location of spectral components in each  */
+
     for (i = 0; i < HAN_SIZE; i++)
       power[i].x = DBMIN;	/* subband with labeling */
-    II_f_f_t (sample, power);	/* locate remaining non- */
+
+      //II_f_f_t (sample, power);	/* locate remaining non- */
 
     if (fr_ps->header->center == 3 && k == 2) {
       /* set center to 0, 9/2/93,SR */
@@ -894,7 +949,10 @@ void psycho_1 (double (*buffer)[1152],
       for (z = 184; z < HAN_SIZE; z++)
 	power[z].x = -103.670;	/* DBMIN + 96.330; */
     }
-    II_pick_max (power, spike[k]);	/* tonal sinusoidals,   */
+
+
+	// II_pick_max (power, spike[k]);	/* tonal sinusoidals,   */
+	psycho_1_hann_fft_pickmax (sample, power, &spike[k][0], energy);
 
 #ifdef PRINTOUT
     if (verbosity >= 3) {
