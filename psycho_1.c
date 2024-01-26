@@ -938,6 +938,8 @@ void psycho_1 (double (*buffer)[1152],
     /* call functions for windowing PCM samples, */
     //II_hann_win (sample);	/* location of spectral components in each  */
 
+    psycho_1_hann_fft_pickmax (sample, power, &spike[k][0], energy);
+
     for (i = 0; i < HAN_SIZE; i++)
       power[i].x = DBMIN;	/* subband with labeling */
 
@@ -952,7 +954,7 @@ void psycho_1 (double (*buffer)[1152],
 
 
 	// II_pick_max (power, spike[k]);	/* tonal sinusoidals,   */
-	psycho_1_hann_fft_pickmax (sample, power, &spike[k][0], energy);
+	
 
 #ifdef PRINTOUT
     if (verbosity >= 3) {
