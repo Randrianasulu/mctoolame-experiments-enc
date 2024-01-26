@@ -938,12 +938,14 @@ void psycho_1 (double (*buffer)[1152],
     /* call functions for windowing PCM samples, */
     //II_hann_win (sample);	/* location of spectral components in each  */
 
-    psycho_1_hann_fft_pickmax (sample, power, &spike[k][0], energy);
-
+    
+#if 0
     for (i = 0; i < HAN_SIZE; i++)
       power[i].x = DBMIN;	/* subband with labeling */
 
+#endif
       //II_f_f_t (sample, power);	/* locate remaining non- */
+
 
     if (fr_ps->header->center == 3 && k == 2) {
       /* set center to 0, 9/2/93,SR */
@@ -952,7 +954,7 @@ void psycho_1 (double (*buffer)[1152],
 	power[z].x = -103.670;	/* DBMIN + 96.330; */
     }
 
-
+	psycho_1_hann_fft_pickmax (sample, power, &spike[k][0], energy);
 	// II_pick_max (power, spike[k]);	/* tonal sinusoidals,   */
 	
 
