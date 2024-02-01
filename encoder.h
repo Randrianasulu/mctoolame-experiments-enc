@@ -3,7 +3,7 @@
 #define DFLT_LAY	2	/* default encoding layer is II */
 #define DFLT_MOD	'r'	/* default mode is stereo front channels */
 #define DFLT_PSY	1	/* default psych model is 1 */
-#define DFLT_SFQ        44.1   	/* default input sampling rate is 44.1 kHz, now 48kHz 28.6.93 SR */
+#define DFLT_SFQ        48   	/* default input sampling rate is 44.1 kHz, now 48kHz 28.6.93 SR */
 #define DFLT_BRT        384    	/* default total output bitrate is 384 kbps */
 #define DFLT_EMP        'n'    	/* default de-emphasis is none */
 #define DFLT_EXT        ".mp2" 	/* default output file extension */
